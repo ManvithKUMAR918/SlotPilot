@@ -374,156 +374,99 @@ const ServiceSelection = () => {
       </section>
 
       {/* Main Content */}
-      <main className="relative z-10 flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<main className="relative z-10 flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div className="text-center mb-12">
+    <Badge className="mb-4 px-4 py-2 bg-primary/10 border-primary/20" variant="outline">
+      <Building2 className="w-4 h-4 mr-2 text-primary" />
+      Our Services
+    </Badge>
+    <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+      Select Your Service
+    </h2>
+    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+      Expert consultants ready to guide you through every step of your journey
+    </p>
+  </div>
 
-        <div className="text-center mb-12">
-          <Badge className="mb-4 px-4 py-2" variant="outline">
-            <Building2 className="w-4 h-4 mr-2" />
-            Our Services
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-primary bg-clip-text text-transparent">
-            Select Your Service
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Expert consultants ready to guide you through every step of your journey
-          </p>
-        </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+    {[
+      {
+        title: "Higher Education",
+        desc: "Get guidance for studying abroad, university applications, and academic programs",
+        icon: <GraduationCap className="w-8 h-8 text-primary-foreground" />,
+        items: ["University Selection", "Document Prep", "Scholarship Guidance", "Visa Assistance"],
+        buttonText: "Apply for Higher Education",
+        buttonIcon: <Building2 className="w-5 h-5 mr-2" />,
+        route: "/higher-education"
+      },
+      {
+        title: "Visa Services",
+        desc: "Expert assistance for all types of visa applications worldwide",
+        icon: <Plane className="w-8 h-8 text-primary-foreground" />,
+        items: ["Tourist & Business Visas", "Work & Employment", "Family & Immigration", "Document Review"],
+        buttonText: "Apply for Visa",
+        buttonIcon: <Globe className="w-5 h-5 mr-2" />,
+        route: "/visa-start"
+      },
+      {
+        title: "Explore Communities",
+        desc: "Connect with students and professionals, ask questions, and learn from experiences",
+        icon: <Users className="w-8 h-8 text-primary-foreground" />,
+        items: ["Student Networks", "University Groups", "Mentorship", "Tips & Resources"],
+        buttonText: "Explore Communities",
+        buttonIcon: <Users className="w-5 h-5 mr-2" />,
+        route: "/communities"
+      }
+    ].map((service, index) => (
+      <Card 
+        key={index}
+        /* LIGHT MODE: bg-slate-100 (Slightly darker than white background)
+           DARK MODE: bg-[#0f1117] (Deep midnight dark)
+        */
+        className="group relative overflow-hidden transition-all duration-500 
+                   bg-slate-100 dark:bg-[#0f1117] 
+                   border-slate-200 dark:border-white/10 
+                   hover:border-primary/50 
+                   hover:-translate-y-3 shadow-xl hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_50px_-12px_rgba(99,102,241,0.5)]"
+      >
+        {/* Glow Overlay - subtle Indigo for both modes */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        <CardHeader className="text-center pb-4 relative z-10">
+          <div className="mx-auto w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mb-6 
+                          shadow-lg group-hover:rotate-3 transition-all duration-500">
+            {service.icon}
+          </div>
+          <CardTitle className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+            {service.title}
+          </CardTitle>
+          <CardDescription className="text-slate-600 dark:text-slate-400 font-medium">
+            {service.desc}
+          </CardDescription>
+        </CardHeader>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16">
-          {/* Higher Education Card */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border-2 hover:border-foreground/30 bg-gradient-to-br from-background to-muted/30 transform hover:-translate-y-2">
-            <CardHeader className="text-center pb-4">
-              <div className="mx-auto w-16 h-16 bg-gradient-to-br from-foreground to-muted-foreground rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <GraduationCap className="w-8 h-8 text-background" />
+        <CardContent className="space-y-6 relative z-10">
+          <div className="space-y-3 text-sm">
+            {service.items.map((item, i) => (
+              <div key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+                <div className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_10px_rgba(99,102,241,0.6)]" />
+                <span>{item}</span>
               </div>
-              <CardTitle className="text-2xl font-bold text-foreground">
-                Higher Education
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                Get guidance for studying abroad, university applications, and academic programs
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>University Selection & Applications</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Document Preparation & Verification</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Scholarship Guidance</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Student Visa Assistance</span>
-                </div>
-              </div>
-              <Button
-                onClick={() => navigate('/higher-education')}
-                variant="hero"
-                className="w-full font-semibold py-3 h-auto"
-                size="lg"
-              >
-                <Building2 className="w-5 h-5 mr-2" />
-                Apply for Higher Education
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Visa Services Card */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border-2 hover:border-foreground/30 bg-gradient-to-br from-background to-muted/30 transform hover:-translate-y-2">
-            <CardHeader className="text-center pb-4">
-              <div className="mx-auto w-16 h-16 bg-gradient-to-br from-foreground to-muted-foreground rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Plane className="w-8 h-8 text-background" />
-              </div>
-              <CardTitle className="text-2xl font-bold text-foreground">
-                Visa Services
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                Expert assistance for all types of visa applications worldwide
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Tourist & Business Visas</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Work & Employment Visas</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Family & Immigration Visas</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Document Support & Review</span>
-                </div>
-              </div>
-              <Button
-                type="button"
-                onClick={() => navigate("/visa-start")}
-                variant="hero"
-                className="w-full font-semibold py-3 h-auto group-hover:shadow-xl transition-all"
-                size="lg"
-              >
-                <Globe className="w-5 h-5 mr-2" />
-                Apply for Visa
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Explore Communities Card */}
-          <Card className="group hover:shadow-2xl transition-all duration-500 border-2 hover:border-foreground/30 bg-gradient-to-br from-background to-muted/30 transform hover:-translate-y-2">
-            <CardHeader className="text-center pb-4">
-              <div className="mx-auto w-16 h-16 bg-gradient-to-br from-foreground to-muted-foreground rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <Users className="w-8 h-8 text-background" />
-              </div>
-              <CardTitle className="text-2xl font-bold text-foreground">
-                Explore Communities
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                Connect with students and professionals, ask questions, and learn from shared experiences
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Student Networks</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Country & University Groups</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Mentorship & Guidance</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>Tips, Resources & Updates</span>
-                </div>
-              </div>
-              <Button
-                onClick={() => navigate('/communities')}
-                variant="hero"
-                className="w-full font-semibold py-3 h-auto"
-                size="lg"
-              >
-                <Users className="w-5 h-5 mr-2" />
-                Explore Communities
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
+            ))}
+          </div>
+          
+          <Button
+            onClick={() => navigate(service.route)}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-7 rounded-xl shadow-lg transform active:scale-95 transition-all"
+          >
+            {service.buttonIcon}
+            {service.buttonText}
+          </Button>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+</main>
 
       {/* Statistics Section */}
       <section className="py-16 sm:py-20 bg-gradient-primary text-primary-foreground relative overflow-hidden">
