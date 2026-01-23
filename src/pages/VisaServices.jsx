@@ -433,19 +433,25 @@ const VisaServices = () => {
 
       <div className="hero-bg">
         {/* Header */}
-        <header className="relative z-10 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-md border-b border-primary/20 shadow-elegant">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex items-center justify-between">
-              <div className="w-32" />
-              <div className="text-center flex-1">
-                <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-hero bg-clip-text text-transparent tracking-tight">
-                  SlotPilot Visa Services
-                </h1>
-              </div>
-              <div className="w-32" />
-            </div>
-          </div>
-        </header>
+        {/* --- HEADER SECTION --- */}
+<header className="relative z-10 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-md border-b border-primary/20 shadow-elegant">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="flex items-center justify-between">
+      {/* Left Spacer - Maintained at w-32 */}
+      <div className="w-32" />
+      
+      <div className="text-center flex-1">
+        {/* Fixed Title: Replaced undefined gradient with standard Tailwind colors */}
+        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-500 via-primary to-purple-600 bg-clip-text text-transparent tracking-tight">
+          SlotPilot Visa Services
+        </h1>
+      </div>
+      
+      {/* Right Spacer - Maintained at w-32 */}
+      <div className="w-32" />
+    </div>
+  </div>
+</header>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {!selectedCountry ? (
@@ -484,30 +490,65 @@ const VisaServices = () => {
                           .search-clear:hover { opacity: 1; }
                         `}</style>
 
-                        <div className="search-glass rounded-full px-5 py-3 flex items-center gap-3 glass">
-                          <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
-                            <Search className="h-6 w-6 text-primary" aria-hidden="true" />
-                          </div>
+                        {/* --- OPTION 2: FLUID NEO-GLASS --- */}
+                        {/* --- FULL HORIZONTAL NEON SEARCH BAR --- */}
+                             {/* --- SLEEK ADAPTIVE NEON SEARCH BAR --- */}
+<div className="mt-8 w-full px-4 sm:px-0">
+  <div className="relative group max-w-7xl mx-auto">
+    
+    {/* SINGLE COLOR NEON GLOW: Primary color, only visible in Dark Mode hover/focus */}
+    <div className="absolute -inset-1 bg-primary rounded-xl blur-lg opacity-0 
+                    dark:group-hover:opacity-20 dark:group-focus-within:opacity-40 
+                    transition-opacity duration-500 pointer-events-none"></div>
+    
+    <div className="relative flex items-center h-16 w-full 
+                    bg-white dark:bg-slate-950 
+                    rounded-xl border transition-all duration-500
+                    /* LIGHT MODE: Grey Shadow & Border */
+                    border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.06)] 
+                    /* DARK MODE: Neon border & transparent shadow */
+                    dark:border-primary/30 dark:shadow-none">
+      
+      {/* Icon Section */}
+      <div className="flex items-center justify-center pl-6">
+        <Search className="h-5 w-5 text-slate-400 dark:text-primary stroke-[2.5px] transition-colors" />
+      </div>
 
-                          <Input
-                            placeholder="Search countries..."
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            className="search-input bg-transparent pl-2 text-lg w-full border-0 focus:ring-0"
-                            aria-label="Search countries"
-                          />
+      {/* Input Field */}
+      <Input
+        placeholder="Where to next?"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="flex-1 bg-transparent text-lg font-medium border-0 
+                   focus-visible:ring-0 focus-visible:ring-offset-0 
+                   placeholder:text-slate-400 dark:placeholder:text-slate-700 
+                   text-slate-900 dark:text-white px-6 h-full transition-all"
+      />
 
-                          {query && (
-                            <button
-                              type="button"
-                              onClick={() => setQuery('')}
-                              aria-label="Clear search"
-                              className="search-clear flex items-center justify-center w-9 h-9 rounded-full bg-white/80 border border-transparent hover:bg-white"
-                            >
-                              ✕
-                            </button>
-                          )}
-                        </div>
+      {/* Action Area */}
+      <div className="flex items-center pr-4 gap-3">
+        {query && (
+          <button 
+            onClick={() => setQuery('')}
+            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <span className="text-xl text-slate-400 font-light">×</span>
+          </button>
+        )}
+        
+        {/* "Enter to Fly" Command Badge */}
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg 
+                        border border-slate-200 dark:border-primary/20 
+                        bg-slate-50 dark:bg-primary/5 shadow-sm">
+          <span className="text-[10px] font-bold text-slate-400 dark:text-primary uppercase tracking-widest">
+            Enter to Fly
+          </span>
+          <Plane className="w-3.5 h-3.5 text-primary rotate-45" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
                       </div>
                     </div>
                   </div>

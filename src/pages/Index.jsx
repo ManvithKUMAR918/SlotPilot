@@ -10,6 +10,7 @@ import StudentDashboardNew from "@/components/StudentDashboardNew";
 import EmployerDashboard from "@/components/EmployerDashboard";
 import { GraduationCap, Globe, Users, CheckCircle, MapPin, TrendingUp, Award, Clock, Star, ArrowRight, Mail, Phone, MapPinIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage from "@/assets/hero-education.jpg";
+import { motion, useInView } from "framer-motion";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Index = () => {
   const [currentView, setCurrentView] = useState("landing");
   const [scrollY, setScrollY] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState("down");
 
   const countries = [
     { name: "United States of America", flag: "🇺🇸", universities: "500+" },
@@ -129,7 +131,18 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+      
+      if (currentScrollY > lastScrollY) {
+        setScrollDirection("down");
+      } else {
+        setScrollDirection("up");
+      }
+      lastScrollY = currentScrollY;
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -147,15 +160,10 @@ const Index = () => {
     });
   };
 
-  // ❌ remove this block (no longer render login here)
-  // if (currentView === "student-auth") {
-  //   return <StudentLoginRegister onBack={() => setCurrentView("landing")} onLogin={() => setCurrentView("student")} />;
-  // }
-
   if (currentView === "login") {
     return (
       <LoginSelection
-        onStudentLogin={goToStudentLogin} // ✅ proper navigation
+        onStudentLogin={goToStudentLogin}
         onEmployerLogin={() => setCurrentView("employer")}
       />
     );
@@ -184,7 +192,6 @@ const Index = () => {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // ✅ Navigate to CollegesListPage with the clicked country (via query param)
   const goToColleges = (countryName) => {
     navigate(`/colleges?country=${encodeURIComponent(countryName)}`);
   };
@@ -249,27 +256,23 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background page-content overflow-x-hidden">
-      {/* Navigation */}
       <nav className="bg-card/80 backdrop-blur-sm border-b sticky top-0 z-50">
         <div className="max-w-full sm:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative h-16 flex items-center justify-between">
-            {/* Left */}
             <div className="flex items-center gap-2 min-w-[120px]">
               <div className="sm:hidden text-lg font-extrabold text-primary">SlotPilot</div>
             </div>
 
-            {/* ✅ Student Login button (top right) */}
             <div className="min-w-[120px] flex justify-end">
               <Button
                 type="button"
-                onClick={goToStudentLogin} // ✅ navigate to StudentLoginRegister page (route)
+                onClick={goToStudentLogin}
                 className="font-semibold"
               >
                 Student Login
               </Button>
             </div>
 
-            {/* Centered brand (desktop) */}
             <div className="hidden sm:block sm:absolute sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 pointer-events-none text-center">
               <div className="text-2xl font-extrabold tracking-tight leading-none">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-rose-500">
@@ -282,7 +285,6 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="relative min-h-[50vh] sm:min-h-[90vh] flex items-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-out"
@@ -322,7 +324,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Statistics Section */}
       <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-600 to-teal-500 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -351,7 +352,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Countries Section */}
+
       <section id="study-destinations" className="py-20 bg-gradient-to-br from-secondary to-background relative">
         <div className="max-w-full sm:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -367,12 +368,17 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial={{ opacity: 0, y: -50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }} // amount: 0.2 triggers when 20% of section is visible
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             {countries.map((country, index) => (
               <Card
                 key={index}
                 className="group shadow-card hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-2 hover:border-blue-500 overflow-hidden"
-                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardContent className="p-4 sm:p-6 text-center relative z-10">
@@ -397,50 +403,89 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="why-choose-us" className="py-20 bg-background">
-        <div className="max-w-full sm:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 px-4 py-2" variant="outline">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Our Commitment
-            </Badge>
-            <h2 className="text-3xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
-              Why Choose Us?
-            </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              We provide comprehensive support throughout your international education journey
-            </p>
-          </div>
+      <section id="why-choose-us" className="py-20 bg-background overflow-hidden">
+  <div className="max-w-full sm:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-16">
+      <Badge className="mb-4 px-4 py-2" variant="outline">
+        <CheckCircle className="w-4 h-4 mr-2" />
+        Our Commitment
+      </Badge>
+      <h2 className="text-3xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+        Why Choose Us?
+      </h2>
+      <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+        We provide comprehensive support throughout your international education journey
+      </p>
+    </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => {
-              const FeatureIcon = feature.icon;
-              return (
-                <Card
-                  key={index}
-                  className="group shadow-card hover:shadow-2xl transition-all duration-500 text-center border-2 hover:border-blue-500 transform hover:-translate-y-2"
-                >
-                  <CardHeader className="pb-4">
-                    <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-blue-600 to-teal-500 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <FeatureIcon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-                    </div>
-                    <CardTitle className="text-lg">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-sm">{feature.description}</CardDescription>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+    {/* The Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {features.map((feature, index) => {
+        const FeatureIcon = feature.icon;
+        
+        // Calculation to move cards from their grid position back to center
+        // On a 4-col layout, this creates a single pile in the middle
+        const xOffset = [150, 50, -50, -150][index]; 
 
+        return (
+          <motion.div
+            key={index}
+            className="h-full"
+            initial={{ 
+              opacity: 0,
+              scale: 0.8,
+              x: xOffset, // Moves card from its slot to the center
+              y: 0,
+              rotate: index * 3, // Slight rotation for the deck effect
+              zIndex: 10 - index // Top card stays on top
+            }}
+            whileInView={{ 
+              opacity: 1,
+              scale: 1,
+              x: 0, // Flies to its own grid position
+              y: 0,
+              rotate: 0,
+              zIndex: 1
+            }}
+            // Trigger animation on cursor hover
+            whileHover={{
+              scale: 1.05,
+              transition: { duration: 0.2 }
+            }}
+            // Changed once to false so it animates every time it's viewed/hovered
+            viewport={{ once: false, margin: "-50px" }}
+            transition={{
+              type: "spring",
+              stiffness: 60,
+              damping: 15,
+              delay: index * 0.2
+            }}
+          >
+            <Card
+              className="group h-full flex flex-col shadow-card hover:shadow-2xl transition-all duration-500 text-center border-2 hover:border-blue-500 transform hover:-translate-y-2 bg-card"
+            >
+              <CardHeader className="pb-4">
+                <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-blue-600 to-teal-500 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <FeatureIcon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+                </div>
+                <CardTitle className="text-lg font-bold">{feature.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <CardDescription className="text-sm">
+                  {feature.description}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </motion.div>
+        );
+      })}
+    </div>
+  </div>
+</section>
       {/* Process Timeline Section */}
       <section className="py-20 bg-gradient-to-br from-secondary to-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -464,30 +509,17 @@ const Index = () => {
               {processSteps.map((step, index) => {
                 const StepIcon = step.icon;
                 const isEven = index % 2 === 0;
+                
+                // Using a separate component for the step to manage local state cleanly
                 return (
-                  <div key={index} className="relative">
-                    <div className={`flex flex-col lg:flex-row items-center gap-8 ${isEven ? '' : 'lg:flex-row-reverse'}`}>
-                      <div className={`flex-1 ${isEven ? 'lg:text-right' : 'lg:text-left'}`}>
-                        <Card className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                          <CardContent className="p-6">
-                            <div className="flex items-center gap-3 mb-3">
-                              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-teal-500 flex items-center justify-center text-white font-bold">
-                                {step.step}
-                              </div>
-                              <h3 className="text-xl font-bold">{step.title}</h3>
-                            </div>
-                            <p className="text-muted-foreground">{step.description}</p>
-                          </CardContent>
-                        </Card>
-                      </div>
-
-                      <div className="hidden lg:flex flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-teal-500 items-center justify-center shadow-lg z-10">
-                        <StepIcon className="w-8 h-8 text-white" />
-                      </div>
-
-                      <div className="flex-1" />
-                    </div>
-                  </div>
+                  <ProcessStepItem 
+                    key={index} 
+                    step={step} 
+                    isEven={isEven} 
+                    StepIcon={StepIcon} 
+                    scrollDirection={scrollDirection}
+                    globalScrollY={scrollY}
+                  />
                 );
               })}
             </div>
@@ -573,70 +605,95 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-gradient-to-br from-secondary to-background">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 px-4 py-2" variant="outline">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Got Questions?
-            </Badge>
-            <h2 className="text-3xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Find answers to common questions about our services
-            </p>
-          </div>
 
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border rounded-lg px-6 bg-card shadow-md hover:shadow-lg transition-shadow">
-                <AccordionTrigger className="text-left font-semibold hover:text-blue-600 transition-colors py-4">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-4">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
+<section className="py-20 bg-gradient-to-br from-secondary to-background overflow-x-hidden">
+  <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-16">
+      <Badge className="mb-4 px-4 py-2" variant="outline">
+        <CheckCircle className="w-4 h-4 mr-2" />
+        Got Questions?
+      </Badge>
+      <h2 className="text-3xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+        Frequently Asked Questions
+      </h2>
+      <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+        Find answers to common questions about our services
+      </p>
+    </div>
+
+    <Accordion type="single" collapsible className="space-y-4">
+      {faqs.map((faq, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: index * 0.1 }}
+        >
+          <AccordionItem
+            value={`item-${index}`}
+            className="border rounded-lg px-6 bg-card shadow-md hover:shadow-lg transition-shadow"
+          >
+            <AccordionTrigger className="text-left font-semibold hover:text-blue-600 transition-colors py-4">
+              {faq.question}
+            </AccordionTrigger>
+            <AccordionContent className="text-muted-foreground pb-4">
+              {faq.answer}
+            </AccordionContent>
+          </AccordionItem>
+        </motion.div>
+      ))}
+    </Accordion>
+  </div>
+</section>
 
       {/* CTA Section */}
-      <section id="cta" className="py-20 bg-gradient-to-br from-blue-600 via-teal-500 to-blue-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-300 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-300 rounded-full blur-3xl animate-pulse" />
-        </div>
+<section id="cta" className="py-20 bg-blue-900 text-white relative overflow-hidden">
+  {/* 1. The Video Background */}
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    preload="auto"
+    className="absolute inset-0 w-full h-full object-cover z-0"
+  >
+    {/* Ensure the filename here matches exactly what you put in the public folder */}
+    <source src="/bg-video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
 
-        <div className="max-w-full sm:max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-3xl sm:text-5xl font-bold mb-6 leading-tight">
-            Ready to Begin Your Journey?
-          </h2>
-          <p className="text-lg sm:text-xl mb-10 opacity-95 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of successful students who have achieved their dreams of studying abroad with our expert guidance
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button
-              size="lg"
-              onClick={goToJourney}
-              className="bg-white text-blue-600 hover:bg-blue-50 text-base sm:text-lg px-8 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 w-full sm:w-auto"
-            >
-              Schedule Free Consultation
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={goToStudentLogin}
-              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-600 text-base sm:text-lg px-8 py-6 rounded-full transition-all duration-300 w-full sm:w-auto"
-            >
-              Login to Dashboard
-            </Button>
-          </div>
-        </div>
-      </section>
+  {/* 2. The Overlay (Crucial: This sits between the video and the text) */}
+  <div className="absolute inset-0 bg-black/20 z-10" />
+
+  {/* 3. The Content (Must have a higher z-index to be visible and clickable) */}
+  <div className="max-w-full sm:max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20">
+    <h2 className="text-3xl sm:text-5xl font-bold mb-6 leading-tight">
+      Ready to Begin Your Journey?
+    </h2>
+    <p className="text-lg sm:text-xl mb-10 opacity-95 max-w-2xl mx-auto leading-relaxed">
+      Join thousands of successful students who have achieved their dreams of studying abroad with our expert guidance
+    </p>
+    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <Button
+        size="lg"
+        onClick={goToJourney}
+        className="bg-white text-blue-600 hover:bg-blue-50 text-base sm:text-lg px-8 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 w-full sm:w-auto"
+      >
+        Schedule Free Consultation
+        <ArrowRight className="ml-2 w-5 h-5" />
+      </Button>
+      <Button
+        size="lg"
+        variant="outline"
+        onClick={goToStudentLogin}
+        className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-600 text-base sm:text-lg px-8 py-6 rounded-full transition-all duration-300 w-full sm:w-auto"
+      >
+        Login to Dashboard
+      </Button>
+    </div>
+  </div>
+</section>
 
       {/* Footer */}
       <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
@@ -703,6 +760,59 @@ const Index = () => {
         </div>
       </footer>
     </div>
+  );
+};
+
+// Sub-component to handle the reset-at-top logic
+const ProcessStepItem = ({ step, isEven, StepIcon, scrollDirection, globalScrollY }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-50px" });
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  // Trigger animation ONLY when scrolling DOWN
+  useEffect(() => {
+    if (isInView && scrollDirection === "down") {
+      setHasAnimated(true);
+    }
+  }, [isInView, scrollDirection]);
+
+  // RESET state when user goes back to the very top of the page
+  useEffect(() => {
+    if (globalScrollY === 0) {
+      setHasAnimated(false);
+    }
+  }, [globalScrollY]);
+
+  return (
+    <motion.div 
+      ref={ref}
+      className="relative"
+      initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0 }}
+      animate={hasAnimated ? { clipPath: "inset(0 0 0% 0)", opacity: 1 } : { clipPath: "inset(0 0 100% 0)", opacity: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <div className={`flex flex-col lg:flex-row items-center gap-8 ${isEven ? '' : 'lg:flex-row-reverse'}`}>
+        <div className={`flex-1 ${isEven ? 'lg:text-right' : 'lg:text-left'}`}>
+          <Card className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-teal-500 flex items-center justify-center text-white font-bold">
+                  {step.step}
+                </div>
+                <h3 className="text-xl font-bold">{step.title}</h3>
+              </div>
+              <p className="text-muted-foreground">{step.description}</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="hidden lg:flex flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-teal-500 items-center justify-center shadow-lg z-10">
+          <StepIcon className="w-8 h-8 text-white" />
+        </div>
+
+        <div className="flex-1" />
+      </div>
+    </motion.div>
   );
 };
 
