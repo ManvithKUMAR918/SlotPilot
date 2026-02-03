@@ -404,7 +404,7 @@ const StudentDashboardNew = ({ onBack }) => {
         .upload(filePath, file, {
           cacheControl: '3600',
           upsert: false,
-        });
+          });
 
       if (firstTry.error) {
         const isDuplicate = firstTry.error.statusCode === '409' || /exists/i.test(firstTry.error.message || '');
@@ -495,9 +495,9 @@ const StudentDashboardNew = ({ onBack }) => {
       }[documentType] || 'other';
       
       setDocumentsByType(prev => ({
-  ...prev,
-  [typeKey]: [newDocument]
-}));
+        ...prev,
+        [typeKey]: [newDocument]
+      }));
       
       // Set successful upload status
       setUploadStatus(prev => ({ ...prev, [documentType]: 'success' }));
@@ -687,9 +687,9 @@ const StudentDashboardNew = ({ onBack }) => {
         <div className="max-w-full sm:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <img src={slotpilotLogo} alt="Slotpilot Consultancy" className="h-8 w-8" />
-              <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Student Portal
+              <img src={slotpilotLogo} alt="Logo" className="h-10 w-auto" />
+              <span className="text-xl font-bold text-primary ml-1">
+                SlotPilot
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -710,7 +710,7 @@ const StudentDashboardNew = ({ onBack }) => {
           <h1 className="text-3xl font-bold mb-2">
             Welcome, {personalDetails.firstName || 'Student'}! 🎓
           </h1>
-          <p className="text-red-600 font-medium mb-2">
+          <p className="text-red-600 dark:text-red-400 font-medium mb-2">
             Complete your profile and upload required documents to proceed with your application.
           </p>
         </div>
@@ -722,7 +722,7 @@ const StudentDashboardNew = ({ onBack }) => {
           </TabsList>
 
           <TabsContent value="profile">
-            <Card className="shadow-elegant">
+            <Card className="shadow-elegant overflow-hidden">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
@@ -745,7 +745,7 @@ const StudentDashboardNew = ({ onBack }) => {
                   Please provide your personal details for the application process.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6 bg-white">
+              <CardContent className="space-y-6 bg-card text-card-foreground">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
@@ -883,21 +883,23 @@ const StudentDashboardNew = ({ onBack }) => {
                 </div>
 
                 {isEditMode ? (
-                  <Button 
-                    onClick={savePersonalDetails} 
-                    className="w-full" 
-                    variant="hero"
-                    disabled={saving}
-                  >
-                    {saving ? (
-                      <div className="flex items-center gap-2">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground"></div>
-                        Saving...
-                      </div>
-                    ) : (
-                      'Save Personal Details'
-                    )}
-                  </Button>
+                  <div className="pt-4 flex justify-center overflow-hidden rounded-md">
+                    <Button 
+                      onClick={savePersonalDetails} 
+                      className="w-full transition-transform duration-200 active:scale-95" 
+                      variant="hero"
+                      disabled={saving}
+                    >
+                      {saving ? (
+                        <div className="flex items-center gap-2">
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground"></div>
+                          Saving...
+                        </div>
+                      ) : (
+                        'Save Personal Details'
+                      )}
+                    </Button>
+                  </div>
                 ) : null}
               </CardContent>
             </Card>
@@ -905,29 +907,29 @@ const StudentDashboardNew = ({ onBack }) => {
 
           <TabsContent value="documents">
             <div className="space-y-6">
-              <Card className="shadow-elegant">
+              <Card className="shadow-elegant overflow-hidden">
                  <CardHeader>
                    <CardTitle className="flex items-center gap-2">
                      <Upload className="h-5 w-5" />
                      Document Upload
                    </CardTitle>
                    <CardDescription>
-                     Upload the required documents for your application. All documents should be in PDF format. You can upload multiple documents for each category.
+                     Upload the required documents for your application. All documents should be in PDF format.
                    </CardDescription>
                    
                    {/* Show Edit Documents button when application is submitted but not in edit mode */}
                    {applicationSubmitted && !isEditMode && (
-                     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                     <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-lg p-4">
                        <div className="flex items-center justify-between">
                          <div className="flex items-center gap-2">
-                           <CheckCircle className="h-5 w-5 text-green-600" />
-                           <span className="text-green-800 font-medium">Application Submitted Successfully</span>
+                           <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                           <span className="text-green-800 dark:text-green-300 font-medium">Application Submitted Successfully</span>
                          </div>
                          <Button 
                            onClick={handleEditDocuments}
                            variant="outline"
                            size="sm"
-                           className="border-green-300 text-green-700 hover:bg-green-100"
+                           className="border-green-300 dark:border-green-800 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/20"
                          >
                             <Upload className="h-4 w-4 mr-2" />
                             Re-upload Documents
@@ -942,18 +944,18 @@ const StudentDashboardNew = ({ onBack }) => {
                  
                  {/* Validation Error Display */}
                  {validationError && validationError.length > 0 && (
-                   <div className="mx-6 mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                   <div className="mx-6 mb-4 p-4 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/50 rounded-lg">
                      <div className="flex items-center gap-2 mb-2">
-                       <X className="h-5 w-5 text-red-600" />
-                       <h4 className="text-red-800 font-semibold">Missing Required Documents</h4>
+                       <X className="h-5 w-5 text-red-600 dark:text-red-400" />
+                       <h4 className="text-red-800 dark:text-red-300 font-semibold">Missing Required Documents</h4>
                      </div>
                      <p className="text-red-700 text-sm mb-3">
                        Please upload the following documents to submit your application:
                      </p>
                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                        {validationError.map((doc, index) => (
-                         <div key={index} className="flex items-center gap-2 text-red-700 text-sm">
-                           <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                         <div key={index} className="flex items-center gap-2 text-red-700 dark:text-red-400 text-sm">
+                           <div className="w-2 h-2 bg-red-600 dark:bg-red-500 rounded-full"></div>
                            <span>{doc.label}</span>
                          </div>
                        ))}
@@ -972,7 +974,7 @@ const StudentDashboardNew = ({ onBack }) => {
                  
                  <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     {[
+                      {[
                       { id: 'passport', label: 'Passport', icon: FileText },
                       { id: 'graduation', label: 'Graduation Certificate', icon: GraduationCap },
                       { id: 'transcripts', label: 'Academic Transcripts', icon: FileText },
@@ -982,129 +984,79 @@ const StudentDashboardNew = ({ onBack }) => {
                       { id: 'lor1', label: 'Letter of Recommendation 1', icon: FileText },
                       { id: 'lor2', label: 'Letter of Recommendation 2', icon: FileText },
                       { id: 'lor3', label: 'Letter of Recommendation 3', icon: FileText }
-                     ].map((docType) => (
-                       <div key={docType.id} className="space-y-3">
-                         <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-all ${
-                           // Check if this document is missing and show red border
-                           validationError && validationError.some(err => err.id === docType.id)
-                             ? 'border-red-400 bg-red-50'
-                             : uploadStatus[docType.label] === 'uploading' 
-                             ? 'border-blue-400 bg-blue-50' 
-                             : uploadStatus[docType.label] === 'error'
-                             ? 'border-red-400 bg-red-50'
-                             : 'border-muted-foreground/25 hover:border-primary/50'
-                         }`}>
-                          <docType.icon className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                          <h3 className="font-medium mb-2">{docType.label}</h3>
-                          
-                          {/* Upload Status Indicator */}
-                          {uploadStatus[docType.label] && (
-                            <div className="mb-2">
-                              {uploadStatus[docType.label] === 'uploading' && (
-                                <div className="flex items-center justify-center gap-2 text-blue-600">
-                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                                  <span className="text-sm">Uploading...</span>
-                                </div>
-                              )}
-                              {uploadStatus[docType.label] === 'success' && (
-                                <div className="flex items-center justify-center gap-2 text-green-600">
-                                  <CheckCircle className="h-4 w-4" />
-                                  <span className="text-sm">Upload Complete!</span>
-                                </div>
-                              )}
-                              {uploadStatus[docType.label] === 'error' && (
-                                <div className="flex items-center justify-center gap-2 text-red-600">
-                                  <X className="h-4 w-4" />
-                                  <span className="text-sm">Upload Failed</span>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                          
-                           <input
-                            type="file"
-                            accept=".pdf,.jpg,.png,.jpeg"
-                            onChange={(e) => handleFileUpload(e, docType.label)}
-                            className="hidden"
-                            id={`upload-${docType.id}`}
-                            disabled={uploading[docType.label] || (applicationSubmitted && !isEditMode) || (applicationSubmitted && isEditMode && !selectedDocumentTypes.includes(docType.id))}
-                          />
-                           <Label
-                            htmlFor={`upload-${docType.id}`}
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm transition-all ${
-                               uploading[docType.label] || (applicationSubmitted && !isEditMode) || (applicationSubmitted && isEditMode && !selectedDocumentTypes.includes(docType.id))
-                                 ? 'bg-gray-400 text-gray-700 cursor-not-allowed' 
-                                 : 'bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer'
-                             }`}
-                          >
-                             {uploading[docType.label] ? (
-                              <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-                                Uploading...
-                              </>
-                             ) : (applicationSubmitted && !isEditMode) ? (
+                      ].map((docType) => (
+                        <div key={docType.id} className="space-y-3">
+                          <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-all ${
+                            validationError && validationError.some(err => err.id === docType.id)
+                              ? 'border-red-400 bg-red-50 dark:bg-red-950/20'
+                              : uploadStatus[docType.label] === 'uploading' 
+                              ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/20' 
+                              : 'border-muted-foreground/25 hover:border-primary/50'
+                          }`}>
+                           <docType.icon className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                           <h3 className="font-medium mb-2">{docType.label}</h3>
+                           
+                            <input
+                             type="file"
+                             accept=".pdf,.jpg,.png,.jpeg"
+                             onChange={(e) => handleFileUpload(e, docType.label)}
+                             className="hidden"
+                             id={`upload-${docType.id}`}
+                             disabled={uploading[docType.label] || (applicationSubmitted && !isEditMode)}
+                           />
+                            <Label
+                             htmlFor={`upload-${docType.id}`}
+                             className={`inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm transition-all ${
+                                uploading[docType.label] || (applicationSubmitted && !isEditMode)
+                                  ? 'bg-gray-400 text-gray-700 cursor-not-allowed' 
+                                  : 'bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer'
+                               }`}
+                           >
+                              {uploading[docType.label] ? (
                                <>
-                                 <CheckCircle className="h-4 w-4" />
-                                 Submitted
+                                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                                 Uploading...
                                </>
-                             ) : (applicationSubmitted && isEditMode && !selectedDocumentTypes.includes(docType.id)) ? (
+                              ) : (
                                <>
-                                 <X className="h-4 w-4" />
-                                 Not Selected
+                                 <Upload className="h-4 w-4 mr-2" />
+                                 Upload
                                </>
-                             ) : uploadStatus[docType.label] === 'success' ? (
-                              <>
-                                <Upload className="h-4 w-4" />
-                                Upload Another
-                              </>
-                            ) : (
-                              <>
-                                <Upload className="h-4 w-4" />
-                                Upload
-                              </>
-                            )}
-                          </Label>
-                        </div>
-                        
-                          {/* Show latest uploaded document for this type with download option */}
-                          {documentsByType[docType.id] && documentsByType[docType.id].length > 0 && (
-                            <div className="mt-3">
-                              {documentsByType[docType.id].slice(0, 1).map((doc) => (
-                                 <div key={doc.id} className="flex items-center justify-between p-3 border border-green-400 bg-green-50 rounded-md group transition-colors animate-fade-in">
-                                   <div className="flex-1 min-w-0">
-                                     <p className="text-sm font-semibold truncate text-green-800">
-                                       {doc.name}
-                                     </p>
-                                     <p className="text-xs text-green-700 mt-1 flex items-center gap-1">
-                                       <span>Uploaded on {doc.uploadDate}</span>
-                                       <span className="text-green-500">•</span>
-                                       <span>{doc.uploadTime}</span>
-                                     </p>
-                                   </div>
-                                   <Button
-                                     variant="ghost"
-                                     size="sm"
-                                     onClick={() => handleDownloadDocument(doc)}
-                                     className="h-8 w-8 p-0 text-green-700 hover:text-green-900 hover:bg-green-200 transition-all duration-200 hover:scale-110 hover-scale"
-                                     title={`Download ${doc.name}`}
-                                   >
-                                     <Download className="h-4 w-4" />
-                                   </Button>
-                                 </div>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                     ))}
+                              )}
+                           </Label>
+                         </div>
+                         
+                           {documentsByType[docType.id] && documentsByType[docType.id].length > 0 && (
+                             <div className="mt-3">
+                               {documentsByType[docType.id].slice(0, 1).map((doc) => (
+                                  <div key={doc.id} className="flex items-center justify-between p-3 border border-green-400 dark:border-green-800 bg-green-50 dark:bg-green-950/20 rounded-md">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-sm font-semibold truncate text-green-800 dark:text-green-300">
+                                        {doc.name}
+                                      </p>
+                                    </div>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => handleDownloadDocument(doc)}
+                                      className="h-8 w-8 p-0 text-green-700 dark:text-green-400"
+                                    >
+                                      <Download className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                               ))}
+                             </div>
+                           )}
+                       </div>
+                      ))}
                   </div>
                   
                   <Separator className="my-6" />
                   
-                  {/* Final Submit Button */}
-                  <div className="text-center">
+                  <div className="text-center overflow-hidden rounded-md">
                     <Button 
                       size="lg" 
-                      className="px-8 py-3 text-lg font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
+                      className="px-8 py-3 text-lg font-semibold shadow-lg transition-transform active:scale-95"
                       onClick={handleSubmitApplication}
                     >
                       <CheckCircle className="h-5 w-5 mr-2" />
@@ -1123,7 +1075,7 @@ const StudentDashboardNew = ({ onBack }) => {
 
       {/* Success Message Overlay */}
       {showSuccessMessage && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-card p-8 rounded-lg shadow-elegant max-w-full sm:max-w-md mx-4 text-center">
             <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">Success!</h3>
@@ -1136,7 +1088,7 @@ const StudentDashboardNew = ({ onBack }) => {
 
       {/* Application Submitted Success Popup */}
       {showSuccessPopup && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-card p-8 rounded-lg shadow-elegant max-w-full sm:max-w-md mx-4 text-center relative">
             <button
               onClick={() => setShowSuccessPopup(false)}
@@ -1148,82 +1100,50 @@ const StudentDashboardNew = ({ onBack }) => {
               </svg>
             </button>
             <CheckCircle className="h-20 w-20 text-green-600 mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-4 text-green-700">Application Submitted Successfully! 🎉</h2>
-            <p className="text-muted-foreground mb-6">
-              All your documents have been uploaded successfully. Our team will review your application and get back to you soon.
-            </p>
+            <h2 className="text-2xl font-bold mb-4 text-green-700 dark:text-green-400">Application Submitted! 🎉</h2>
+            <Button onClick={() => setShowSuccessPopup(false)} className="mt-4">Close</Button>
           </div>
         </div>
       )}
 
       {/* Document Type Selection Modal */}
       {showDocumentSelector && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
-          <div className="bg-card border rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col animate-scale-in">
-            <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-6 rounded-t-xl border-b flex-shrink-0">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <Upload className="h-6 w-6 text-primary" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-foreground">Select Documents to Re-upload</h2>
-                </div>
-                <Button 
-                  onClick={handleSelectAllDocuments}
-                  variant="outline" 
-                  size="sm"
-                  className="hover:bg-primary hover:text-white transition-colors"
-                >
-                  Select All Documents
-                </Button>
-              </div>
-              <p className="text-muted-foreground">
-                Choose which document categories you want to re-upload. You can select multiple categories and update them individually.
-              </p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-card border rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col">
+            <div className="p-6 border-b flex-shrink-0">
+              <h2 className="text-2xl font-bold text-foreground">Select Documents to Re-upload</h2>
             </div>
             
             <div className="p-6 overflow-y-auto flex-1">
               <div className="grid grid-cols-3 gap-4 mb-8">
                 {[
-                  { id: 'passport', label: 'Passport', icon: FileText, color: 'bg-blue-50 border-blue-200 text-blue-700' },
-                  { id: 'graduation', label: 'Graduation Certificate', icon: GraduationCap, color: 'bg-green-50 border-green-200 text-green-700' },
-                  { id: 'transcripts', label: 'Academic Transcripts', icon: FileText, color: 'bg-purple-50 border-purple-200 text-purple-700' },
-                  { id: 'ielts', label: 'IELTS/TOEFL Score', icon: FileText, color: 'bg-orange-50 border-orange-200 text-orange-700' },
-                  { id: 'sop', label: 'Statement of Purpose', icon: FileText, color: 'bg-pink-50 border-pink-200 text-pink-700' },
-                  { id: 'cv', label: 'CV/Resume', icon: FileText, color: 'bg-indigo-50 border-indigo-200 text-indigo-700' },
-                  { id: 'lor1', label: 'Letter of Recommendation 1', icon: FileText, color: 'bg-teal-50 border-teal-200 text-teal-700' },
-                  { id: 'lor2', label: 'Letter of Recommendation 2', icon: FileText, color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
-                  { id: 'lor3', label: 'Letter of Recommendation 3', icon: FileText, color: 'bg-red-50 border-red-200 text-red-700' }
+                  { id: 'passport', label: 'Passport', icon: FileText },
+                  { id: 'graduation', label: 'Graduation Certificate', icon: GraduationCap },
+                  { id: 'transcripts', label: 'Academic Transcripts', icon: FileText },
+                  { id: 'ielts', label: 'IELTS/TOEFL Score', icon: FileText },
+                  { id: 'sop', label: 'Statement of Purpose', icon: FileText },
+                  { id: 'cv', label: 'CV/Resume', icon: FileText },
+                  { id: 'lor1', label: 'LOR 1', icon: FileText },
+                  { id: 'lor2', label: 'LOR 2', icon: FileText },
+                  { id: 'lor3', label: 'LOR 3', icon: FileText }
                 ].map((docType) => (
                   <div 
                     key={docType.id} 
-                    className={`group relative flex flex-col items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 min-h-[140px] hover:shadow-lg hover:scale-105 ${
+                    className={`group relative flex flex-col items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 min-h-[140px] hover:shadow-lg ${
                       selectedDocumentTypes.includes(docType.id) 
-                        ? 'border-primary bg-primary/5 shadow-md ring-2 ring-primary/20' 
+                        ? 'border-primary bg-primary/5' 
                         : 'border-muted hover:border-primary/30 hover:bg-muted/30'
                     }`}
                     onClick={() => handleDocumentTypeToggle(docType)}
                   >
-                    {selectedDocumentTypes.includes(docType.id) && (
-                      <div className="absolute -top-2 -right-2 bg-primary rounded-full p-1 shadow-lg">
-                        <CheckCircle className="h-4 w-4 text-white" />
-                      </div>
-                    )}
-                    
-                    <div className={`p-3 rounded-lg ${docType.color} group-hover:scale-110 transition-transform duration-200`}>
-                      <docType.icon className="h-6 w-6" />
+                    <div className="p-3 rounded-lg bg-primary/10 group-hover:scale-110 transition-transform duration-200">
+                      <docType.icon className="h-6 w-6 text-primary" />
                     </div>
-                    
                     <span className="font-medium text-center text-sm leading-tight px-2">{docType.label}</span>
-                    
-                    <div className={`w-6 h-6 border-2 rounded-full flex items-center justify-center transition-all duration-200 ${
-                      selectedDocumentTypes.includes(docType.id) 
-                        ? 'border-primary bg-primary scale-110' 
-                        : 'border-muted-foreground group-hover:border-primary'
+                    <div className={`w-6 h-6 border-2 rounded-full flex items-center justify-center ${
+                      selectedDocumentTypes.includes(docType.id) ? 'border-primary bg-primary' : 'border-muted-foreground'
                     }`}>
-                      {selectedDocumentTypes.includes(docType.id) && (
-                        <div className="w-2 h-2 bg-white rounded-full" />
-                      )}
+                      {selectedDocumentTypes.includes(docType.id) && <div className="w-2 h-2 bg-white rounded-full" />}
                     </div>
                   </div>
                 ))}
@@ -1232,19 +1152,10 @@ const StudentDashboardNew = ({ onBack }) => {
 
             <div className="p-6 border-t bg-muted/10 rounded-b-xl flex-shrink-0">
               <div className="flex gap-4">
+                <Button onClick={() => setShowDocumentSelector(false)} variant="outline" className="flex-1">Cancel</Button>
                 <Button 
-                  onClick={() => {
-                    setShowDocumentSelector(false);
-                    setSelectedDocumentTypes([]);
-                  }}
-                  variant="outline" 
-                  className="flex-1 hover:bg-muted"
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  onClick={handleConfirmReupload}
-                  className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all font-semibold"
+                  onClick={handleConfirmReupload} 
+                  className="flex-1 bg-primary text-primary-foreground font-semibold"
                   disabled={selectedDocumentTypes.length === 0}
                 >
                   <Upload className="h-4 w-4 mr-2" />

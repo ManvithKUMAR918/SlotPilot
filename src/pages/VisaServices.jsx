@@ -431,28 +431,23 @@ const VisaServices = () => {
         }
       `}</style>
 
-      <div className="hero-bg">
-        {/* Header */}
-        {/* --- HEADER SECTION --- */}
-<header className="relative z-10 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-md border-b border-primary/20 shadow-elegant">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div className="flex items-center justify-between">
-      {/* Left Spacer - Maintained at w-32 */}
-      <div className="w-32" />
-      
-      <div className="text-center flex-1">
-        {/* Fixed Title: Replaced undefined gradient with standard Tailwind colors */}
-        <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-500 via-primary to-purple-600 bg-clip-text text-transparent tracking-tight">
-          SlotPilot Visa Services
-        </h1>
-      </div>
-      
-      {/* Right Spacer - Maintained at w-32 */}
-      <div className="w-32" />
-    </div>
-  </div>
-</header>
+      {/* Header Added Below */}
+      <header className="bg-card/80 backdrop-blur-sm border-b sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative h-16 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-2xl font-extrabold tracking-tight leading-none">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-rose-500">
+                  SlotPilot
+                </span>
+              </div>
+              <div className="text-xs text-muted-foreground">Global Education & Visa Services</div>
+            </div>
+          </div>
+        </div>
+      </header>
 
+      <div className="hero-bg">
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {!selectedCountry ? (
             <div className="animate-fade-in">
@@ -492,63 +487,63 @@ const VisaServices = () => {
 
                         {/* --- OPTION 2: FLUID NEO-GLASS --- */}
                         {/* --- FULL HORIZONTAL NEON SEARCH BAR --- */}
-                             {/* --- SLEEK ADAPTIVE NEON SEARCH BAR --- */}
-<div className="mt-8 w-full px-4 sm:px-0">
-  <div className="relative group max-w-7xl mx-auto">
-    
-    {/* SINGLE COLOR NEON GLOW: Primary color, only visible in Dark Mode hover/focus */}
-    <div className="absolute -inset-1 bg-primary rounded-xl blur-lg opacity-0 
-                    dark:group-hover:opacity-20 dark:group-focus-within:opacity-40 
-                    transition-opacity duration-500 pointer-events-none"></div>
-    
-    <div className="relative flex items-center h-16 w-full 
-                    bg-white dark:bg-slate-950 
-                    rounded-xl border transition-all duration-500
-                    /* LIGHT MODE: Grey Shadow & Border */
-                    border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.06)] 
-                    /* DARK MODE: Neon border & transparent shadow */
-                    dark:border-primary/30 dark:shadow-none">
-      
-      {/* Icon Section */}
-      <div className="flex items-center justify-center pl-6">
-        <Search className="h-5 w-5 text-slate-400 dark:text-primary stroke-[2.5px] transition-colors" />
-      </div>
+                        {/* --- SLEEK ADAPTIVE NEON SEARCH BAR --- */}
+                        <div className="mt-8 w-full px-4 sm:px-0">
+                          <div className="relative group max-w-7xl mx-auto">
+                            
+                            {/* SINGLE COLOR NEON GLOW: Primary color, only visible in Dark Mode hover/focus */}
+                            <div className="absolute -inset-1 bg-primary rounded-xl blur-lg opacity-0 
+                                            dark:group-hover:opacity-20 dark:group-focus-within:opacity-40 
+                                            transition-opacity duration-500 pointer-events-none"></div>
+                            
+                            <div className="relative flex items-center h-16 w-full 
+                                            bg-white dark:bg-slate-950 
+                                            rounded-xl border transition-all duration-500
+                                            /* LIGHT MODE: Grey Shadow & Border */
+                                            border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.06)] 
+                                            /* DARK MODE: Neon border & transparent shadow */
+                                            dark:border-primary/30 dark:shadow-none">
+                              
+                              {/* Icon Section */}
+                              <div className="flex items-center justify-center pl-6">
+                                <Search className="h-5 w-5 text-slate-400 dark:text-primary stroke-[2.5px] transition-colors" />
+                              </div>
 
-      {/* Input Field */}
-      <Input
-        placeholder="Where to next?"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="flex-1 bg-transparent text-lg font-medium border-0 
-                   focus-visible:ring-0 focus-visible:ring-offset-0 
-                   placeholder:text-slate-400 dark:placeholder:text-slate-700 
-                   text-slate-900 dark:text-white px-6 h-full transition-all"
-      />
+                              {/* Input Field */}
+                              <Input
+                                placeholder="Where to next?"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                className="flex-1 bg-transparent text-lg font-medium border-0 
+                                           focus-visible:ring-0 focus-visible:ring-offset-0 
+                                           placeholder:text-slate-400 dark:placeholder:text-slate-700 
+                                           text-slate-900 dark:text-white px-6 h-full transition-all"
+                              />
 
-      {/* Action Area */}
-      <div className="flex items-center pr-4 gap-3">
-        {query && (
-          <button 
-            onClick={() => setQuery('')}
-            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-          >
-            <span className="text-xl text-slate-400 font-light">×</span>
-          </button>
-        )}
-        
-        {/* "Enter to Fly" Command Badge */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg 
-                        border border-slate-200 dark:border-primary/20 
-                        bg-slate-50 dark:bg-primary/5 shadow-sm">
-          <span className="text-[10px] font-bold text-slate-400 dark:text-primary uppercase tracking-widest">
-            Enter to Fly
-          </span>
-          <Plane className="w-3.5 h-3.5 text-primary rotate-45" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                              {/* Action Area */}
+                              <div className="flex items-center pr-4 gap-3">
+                                {query && (
+                                  <button 
+                                    onClick={() => setQuery('')}
+                                    className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                  >
+                                    <span className="text-xl text-slate-400 font-light">×</span>
+                                  </button>
+                                )}
+                                
+                                {/* "Enter to Fly" Command Badge */}
+                                <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg 
+                                                border border-slate-200 dark:border-primary/20 
+                                                bg-slate-50 dark:bg-primary/5 shadow-sm">
+                                  <span className="text-[10px] font-bold text-slate-400 dark:text-primary uppercase tracking-widest">
+                                    Enter to Fly
+                                  </span>
+                                  <Plane className="w-3.5 h-3.5 text-primary rotate-45" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

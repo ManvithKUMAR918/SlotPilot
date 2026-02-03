@@ -239,139 +239,137 @@ const ServiceSelection = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col overflow-x-hidden">
       {/* Header */}
-      <header className="relative z-10 bg-gradient-to-r from-primary/10 to-background backdrop-blur-md border-b border-border shadow-elegant">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            {/* left placeholder (keeps balanced layout) */}
-            <div className="w-16" />
+  <header className="bg-card/80 backdrop-blur-sm border-b sticky top-0 z-50 transition-colors duration-500">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="relative h-16 flex items-center justify-between">
+      
+      {/* Left Column: Placeholder to maintain center alignment */}
+      <div className="hidden md:block w-40" />
 
-            {/* center wordmark */}
-            <div className="flex-1 flex justify-center">
-              <div className="text-center">
-                {/* Animated wordmark styles (disabled on small screens for stability) */}
-                <style>{`
-                  .slotpilot-wordmark { display:inline-flex; gap:0.04rem; align-items:baseline; }
-                  .slotpilot-wordmark span {
-                    display:inline-block;
-                    font-weight:800;
-                    font-size:1.6rem;
-                    line-height:1;
-                    -webkit-background-clip:text;
-                    background-clip:text;
-                    color:transparent;
-                    background-image: linear-gradient(90deg, hsl(var(--foreground)) 0%, hsl(var(--muted-foreground)) 50%, hsl(var(--foreground)) 100%);
-                    transition: transform 220ms ease, letter-spacing 220ms ease;
-                  }
-                  /* subtle staggered wave on md+ only */
-                  @media (min-width: 768px) {
-                    .slotpilot-wordmark span { font-size:2.625rem; }
-                    .slotpilot-wordmark span:nth-child(1){ animation:wave 2200ms ease-in-out infinite; animation-delay:0ms; }
-                    .slotpilot-wordmark span:nth-child(2){ animation:wave 2200ms ease-in-out infinite; animation-delay:80ms; }
-                    .slotpilot-wordmark span:nth-child(3){ animation:wave 2200ms ease-in-out infinite; animation-delay:160ms; }
-                    .slotpilot-wordmark span:nth-child(4){ animation:wave 2200ms ease-in-out infinite; animation-delay:240ms; }
-                    .slotpilot-wordmark span:nth-child(5){ animation:wave 2200ms ease-in-out infinite; animation-delay:320ms; }
-                    .slotpilot-wordmark span:nth-child(6){ animation:wave 2200ms ease-in-out infinite; animation-delay:400ms; }
-                    .slotpilot-wordmark span:nth-child(7){ animation:wave 2200ms ease-in-out infinite; animation-delay:480ms; }
-                    .slotpilot-wordmark span:nth-child(8){ animation:wave 2200ms ease-in-out infinite; animation-delay:560ms; }
-                    .slotpilot-wordmark span:nth-child(9){ animation:wave 2200ms ease-in-out infinite; animation-delay:640ms; }
-                    @keyframes wave {
-                      0% { transform: translateY(0) scale(1); }
-                      40% { transform: translateY(-6px) scale(1.03); }
-                      70% { transform: translateY(-3px) scale(1.015); }
-                      100% { transform: translateY(0) scale(1); }
-                    }
-                    .slotpilot-wordmark:hover span { transform: translateY(-3px) scale(1.02); letter-spacing:0.6px; }
-                  }
-                `}</style>
-
-                <div>
-                  <h1 className="mb-0">
-                    <span className="slotpilot-wordmark" aria-label="SlotPilot">
-                      {"SlotPilot".split('').map((ch, i) => <span key={i}>{ch}</span>)}
-                    </span>
-                  </h1>
-                </div>
-
-                <p className="text-xs sm:text-sm text-muted-foreground font-medium tracking-wide uppercase mt-1">
-                  Global Education & Visa Services
-                </p>
-              </div>
-            </div>
-
-            {/* right: employer/student actions (responsive) */}
-            <div className="w-16 flex justify-end items-center">
-              <div className="hidden sm:block">
-                <div className="flex items-center gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setIsDarkMode((v) => !v)}
-                    aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                    title={isDarkMode ? "Light mode" : "Dark mode"}
-                  >
-                    {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                  </Button>
-
-                  <Button
-                    variant="hero"
-                    size="sm"
-                    onClick={() => navigate('/employer-login')}
-                    className="font-semibold shadow-lg"
-                  >
-                    Employer Login
-                  </Button>
-                </div>
-              </div>
-              {/* small-screen compact action: show login icon (navigates to Employer Login) */}
-              <div className="sm:hidden">
-                <div className="flex items-center gap-2">
-                  <button
-                    className="p-2 rounded-md border flex items-center justify-center"
-                    aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                    title={isDarkMode ? "Light mode" : "Dark mode"}
-                    onClick={() => setIsDarkMode((v) => !v)}
-                  >
-                    {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                  </button>
-
-                  <button
-                    className="p-2 rounded-md border flex items-center justify-center bg-gradient-primary text-primary-foreground"
-                    aria-label="Employer Login"
-                    onClick={() => navigate('/employer-login')}
-                  >
-                    <Users className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Center Column: SlotPilot Logo */}
+      <div className="text-center flex-1">
+        <div className="text-2xl font-extrabold tracking-tight leading-none">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-rose-500">
+            SlotPilot
+          </span>
         </div>
-      </header>
+        <div className="text-[10px] sm:text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1">
+          Global Education & Visa Services
+        </div>
+      </div>
+
+      {/* Right Column: Theme Toggle & Employer Login */}
+      <div className="w-auto md:w-40 flex justify-end items-center gap-2 sm:gap-4">
+        {/* Theme Switcher Button */}
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsDarkMode((prev) => !prev)}
+          className="rounded-full hover:bg-accent transition-colors"
+          aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+          title={isDarkMode ? "Light mode" : "Dark mode"}
+        >
+          {isDarkMode ? (
+            <Sun className="h-[1.2rem] w-[1.2rem] text-amber-500 transition-all" />
+          ) : (
+            <Moon className="h-[1.2rem] w-[1.2rem] text-slate-700 transition-all" />
+          )}
+        </Button>
+
+        {/* Employer Login Button (Desktop) */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => navigate('/employer-login')}
+          className="hidden sm:flex font-semibold border-primary/20 hover:bg-primary/10"
+        >
+          <Users className="w-4 h-4 mr-2" />
+          Employer Login
+        </Button>
+
+        {/* Employer Login Icon (Mobile) */}
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => navigate('/employer-login')}
+          className="sm:hidden rounded-full"
+        >
+          <Users className="h-4 w-4" />
+        </Button>
+      </div>
+
+    </div>
+  </div>
+</header>
 
       {/* Hero Section */}
-      <section className="relative py-16 sm:py-24 bg-gradient-primary text-primary-foreground overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-background rounded-full blur-3xl animate-pulse"
-               style={{ transform: `translateY(${scrollY * 0.3}px)` }} />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-muted rounded-full blur-3xl animate-pulse"
-               style={{ transform: `translateY(${scrollY * -0.3}px)` }} />
-        </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Badge className="mb-4 px-4 py-2 bg-background/10 backdrop-blur-md border-background/20">
-            <Star className="w-4 h-4 mr-2 fill-primary text-primary" />
-            Trusted by 15,000+ Clients Worldwide
-          </Badge>
+<section className="relative w-full min-h-[500px] flex items-center justify-center py-16 sm:py-24 overflow-hidden">
 
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Choose Your Perfect Service
-          </h2>
-          <p className="text-base sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-95 leading-relaxed">
-            From education to immigration, we provide comprehensive solutions for all your global aspirations
-          </p>
-        </div>
-      </section>
+  {/* 1. The Video Layer */}
+
+    <video
+
+    autoPlay
+
+    loop
+
+    muted
+
+    playsInline
+
+    preload="auto"
+
+    className="absolute inset-0 w-full h-full object-cover z-0"
+
+  >
+
+    {/* Ensure the filename here matches exactly what you put in the public folder */}
+
+    <source src="/main-bg-vdo.mp4" type="video/mp4" />
+
+    Your browser does not support the video tag.
+
+  </video>
+
+
+
+  {/* 2. The Dark Overlay (Crucial for text visibility) */}
+
+  <div className="absolute inset-0 bg-black/50 z-10" />
+
+
+
+  {/* 3. The Content Layer */}
+
+  <div className="relative z-20 max-w-6xl mx-auto px-4 text-center text-white">
+
+    <Badge className="mb-4 px-4 py-2 bg-white/10 backdrop-blur-md border-white/20 text-white">
+
+      <Star className="w-4 h-4 mr-2 fill-yellow-400 text-yellow-400" />
+
+      Trusted by 15,000+ Clients Worldwide
+
+    </Badge>
+
+
+
+    <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
+
+      Choose Your Perfect Service
+
+    </h2>
+
+    <p className="text-base sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+
+      From education to immigration, we provide comprehensive solutions for all your global aspirations
+
+    </p>
+
+  </div>
+
+</section>
 
       {/* Main Content */}
 <main className="relative z-10 flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -406,7 +404,7 @@ const ServiceSelection = () => {
         items: ["Tourist & Business Visas", "Work & Employment", "Family & Immigration", "Document Review"],
         buttonText: "Apply for Visa",
         buttonIcon: <Globe className="w-5 h-5 mr-2" />,
-        route: "/visa-start"
+        route: "/visa-services"
       },
       {
         title: "Explore Communities",
@@ -431,7 +429,9 @@ const ServiceSelection = () => {
       >
         {/* Glow Overlay - subtle Indigo for both modes */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
         
+
         <CardHeader className="text-center pb-4 relative z-10">
           <div className="mx-auto w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mb-6 
                           shadow-lg group-hover:rotate-3 transition-all duration-500">
@@ -454,7 +454,9 @@ const ServiceSelection = () => {
               </div>
             ))}
           </div>
+
           
+
           <Button
             onClick={() => navigate(service.route)}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-7 rounded-xl shadow-lg transform active:scale-95 transition-all"
@@ -505,46 +507,109 @@ const ServiceSelection = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/10 to-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 px-4 py-2" variant="outline">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Why Choose Us
-            </Badge>
-            <h2 className="text-3xl sm:text-5xl font-bold mb-4 text-foreground supports-[background-clip:text]:bg-primary supports-[background-clip:text]:bg-clip-text supports-[background-clip:text]:text-transparent">
-              Our Advantages
-            </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Experience the difference with our comprehensive service approach
-            </p>
+
+      <section className="py-20 bg-gradient-to-br from-primary/10 to-background overflow-hidden group/section">
+
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div className="text-center mb-16">
+
+      <Badge className="mb-4 px-4 py-2" variant="outline">
+
+        <CheckCircle className="w-4 h-4 mr-2" />
+
+        Why Choose Us
+
+      </Badge>
+
+      <h2 className="text-3xl sm:text-5xl font-bold mb-4 text-foreground supports-[background-clip:text]:bg-primary supports-[background-clip:text]:bg-clip-text supports-[background-clip:text]:text-transparent">
+
+        Our Advantages
+
+      </h2>
+
+      <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+
+        Experience the difference with our comprehensive service approach
+
+      </p>
+
+    </div>
+
+
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      {benefits.map((benefit, index) => {
+
+        const BenefitIcon = benefit.icon;
+
+        return (
+
+          <div
+
+            key={index}
+
+            style={{ 
+
+              // This creates the staggered "one-by-one" slide effect
+
+              transitionDelay: `${index * 150}ms` 
+
+            }}
+
+            className="h-full transform transition-all duration-700 ease-out opacity-0 translate-y-12 group-hover/section:opacity-100 group-hover/section:translate-y-0"
+
+          >
+
+            <Card
+
+              className="group h-full flex flex-col shadow-card hover:shadow-2xl transition-all duration-500 text-center border-2 hover:border-primary transform hover:-translate-y-2 bg-card"
+
+            >
+
+              <CardHeader className="pb-4">
+
+                <div className="mx-auto mb-4 p-3 bg-gradient-primary rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+
+                  <BenefitIcon className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
+
+                </div>
+
+                <CardTitle className="text-lg font-bold">{benefit.title}</CardTitle>
+
+              </CardHeader>
+
+              <CardContent className="flex-grow">
+
+                {/* flex-grow ensures the third card stretches to match the tallest card */}
+
+                <CardDescription className="text-sm">
+
+                  {benefit.description}
+
+                </CardDescription>
+
+              </CardContent>
+
+            </Card>
+
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => {
-              const BenefitIcon = benefit.icon;
-              return (
-                <Card
-                  key={index}
-                  className="group shadow-card hover:shadow-2xl transition-all duration-500 text-center border-2 hover:border-primary transform hover:-translate-y-2"
-                >
-                  <CardHeader className="pb-4">
-                    <div className="mx-auto mb-4 p-3 bg-gradient-primary rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <BenefitIcon className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
-                    </div>
-                    <CardTitle className="text-lg">{benefit.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-sm">{benefit.description}</CardDescription>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+        );
 
-      {/* Testimonials Section */}
+      })}
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+          {/* Testimonials Section */}
+
       <section className="py-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -620,7 +685,6 @@ const ServiceSelection = () => {
           </div>
         </div>
       </section>
-
       {/* FAQ Section */}
       <section className="py-20 bg-gradient-to-br from-primary/10 to-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
